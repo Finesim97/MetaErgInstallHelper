@@ -36,7 +36,7 @@ Now you can run MetaErg with the `runMetaErg.sh` script:
 
 ``` sh
 bash metaergscripts/runMetaErg.sh metaerginstall -h
-bash metaergscripts/runMetaErg.sh metaerginstall --sp --tm --outdir metaerg_test --prefix test --locustag metaerg_test metaerginstall/metaerg/examples/test.fasta | tee metaErgTestLog.txt
+bash metaergscripts/runMetaErg.sh metaerginstall --sp --tm --outdir metaerg_test --prefix test --locustag metaerg_test metaerginstall/metaerg/example/test.fasta | tee metaErgTestLog.txt
 ```
 
 Remember to honor the licenses of the the used tools and cite them in your work, including the [Metabolic HMMs](https://doi.org/10.1038/s41396-018-0078-0) and the [CAS HMMs](https://doi.org/10.1038/nature21059).
