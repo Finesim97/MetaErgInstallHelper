@@ -9,6 +9,7 @@ Due to the nature of the bioinfomatic hell, the pipelines has a few dependencies
 ## Usage (Last tested with 1.0.2, August 2019)
 
 The availability of Conda is assumed. If it is not installed on your system, please follow the installation [described here](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html)
+
 You first need to download the scripts. The easiest way to do that is just to clone the repository:
 
 ``` sh
@@ -52,7 +53,7 @@ rule installMetaErg:
 	input:
 		"signalp-4.1g.Linux.tar.gz",
 		"tmhmm-2.0c.Linux.tar.gz",
-        script="metaergscripts/installMetaErg.sh"
+		script="metaergscripts/installMetaErg.sh"
 	output:
 		directory("metaerg")
 	log:
@@ -71,7 +72,7 @@ rule metaergsample:
 		installdir=rules.installMetaErg.output,
 		bin=rules.megahitassembly.output.contigs,
 		depthmat=rules.assemblycoverage.output.depthmatrix,
-        script="metaergscripts/runMetaErg.sh"
+		script="metaergscripts/runMetaErg.sh"
 	output:
 		reportdir="metaerg/{sample}"
 	log:
