@@ -25,7 +25,7 @@ Next you have to check the configuration of the installer.
 nano metaergscripts/installMetaErg.sh
 ```
 
-After that you either can run the installation or include in your workflow scripts (see below for a Snakemake example).
+After that you either can run the installation or include it in your workflow scripts (see below for a Snakemake example).
 
 ``` sh
 bash metaergscripts/installMetaErg.sh metaerginstall | tee metaErgInstallLog.txt
