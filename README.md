@@ -1,10 +1,10 @@
 # MetaErgInstallHelper
 A few scripts to help with the installation of **MetaErg**, the contig/bin annotation pipeline.
 
-## What is MetaErg
-[MetaErg](https://sourceforge.net/projects/metaerg/) is a set of Perl scripts describing a **full** annotation workflow for metagenomic/proteomic using HMMER, Diamond and a few feature prediction tools, that produces summarized files (including tbl and gff3) and an overview report. Using MinPath, MetaCyc and KEGG Pathways are reconstructed from the functional annotation (KO,GO and EC numbers are available!). You could compare it to [Prokka](https://github.com/tseemann/prokka), but it is better suited for meta samples.
+## What is MetaErg?
+[MetaErg](https://sourceforge.net/projects/metaerg/) is a set of Perl scripts describing a **full** annotation workflow for metagenomic/proteomic contigs using HMMER, Diamond and a few feature prediction tools, that produces summary files (including tbl and gff3) and an overview report. Using MinPath, MetaCyc and KEGG Pathways are reconstructed from the functional annotation (KO,GO and EC numbers are available!). You could compare it to [Prokka](https://github.com/tseemann/prokka), but it is better suited for meta samples.
 
-Due to the nature of the bioinfomatic hell, the pipelines has a few dependencies which need to be installed and sometimes modified to be able to run the pipeline. This repo prrovides script to ease the installation process. If something isn't working, feel free to contact me.
+Due to the nature of the bioinformatic hell, the pipeline has a few dependencies which need to be installed and sometimes modified. This repo prrovides scripts to ease the installation process. If something isn't working, feel free to contact me.
 
 ## Usage (Last tested with 1.0.2, August 2019)
 

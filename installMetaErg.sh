@@ -52,7 +52,7 @@ cd $targetdir
 #
 
 if [ "$setupCondaEnv" = true ] ; then
-   condadir="condaenv"
+   condadir="./condaenv"
    echo "Creating conda env..."
    conda env create -f "$scriptdir/metaerg.yml" -p "$condadir"
    echo "Activating conda env..."
