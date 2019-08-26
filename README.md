@@ -8,7 +8,7 @@ Due to the nature of the bioinformatic hell, the pipeline has a few dependencies
 
 ## Usage (Last tested with 1.0.2, August 2019)
 
-The availability of Conda is assumed. If it is not installed on your system, please follow the installation [described here](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html)
+The availability of Conda is assumed. If it is not installed on your system, please follow the installation [described here](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html). After installing you need to open a new shell to have it available. 
 
 You first need to download the scripts. The easiest way to do that is just to clone the repository:
 
@@ -18,6 +18,7 @@ git clone https://github.com/Finesim97/MetaErgInstallHelper.git metaergscripts
 ```
 
 You will also need to download [SignalP 4.1](http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+4.1)(**5 doesn't work**) and [TMHMM](http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?tmhmm). Place the downloaded `.tar.gz` in your current working directory.
+
 
 Next you have to check the configuration of the installer. 
 
@@ -30,6 +31,12 @@ After that you either can run the installation or include it in your workflow sc
 ``` sh
 bash metaergscripts/installMetaErg.sh metaerginstall | tee metaErgInstallLog.txt
 # metaerginstall will be the directory with the installation and dependencies. This may take a while.
+```
+
+If you have problems deleting the installation, due to "Permission denied errors" for the SignalP reference files, run this command to add write permissions for you:
+
+``` sh
+chmod -R u+w metaerginstall/
 ```
 
 Now you can run MetaErg with the `runMetaErg.sh` script:
