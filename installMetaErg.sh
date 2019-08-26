@@ -12,6 +12,8 @@ tmhmmarchive="tmhmm-2.0c.Linux.tar.gz" # Path to the tmhmm tar.gz
 
 signalptmhmm32bit=true # The 64bit executables included in SignalP/TMHMM don't work on our systems, if true, 32bit executables will be used instead
 
+signalpMaxSequences=10000000000 # The default behaviour of SignalP is to accept only 20000 sequences, with more it just will exit without an error and do nothing.
+
 silvaversion=132 # Version of the silva SSU/LSU to download
 
 fixNoRRNACrash=true # The 1.0.2 version of MetaErg crashes if rRNAFinder doesn't finds any rRNA Fragments, if true, a patch will be applied, that may not work/be necessary for future versions
@@ -75,6 +77,9 @@ sed -i "$shebangfix" $signalpexec
 
 echo "Removing forced env replacement..."
 sed -E -i "s/\\\$ENV\\{SIGNALP\\} = '[^']+';//" $signalpexec
+
+echo "Setting max sequence limit..."
+sed -E -i "s/my \\\$MAX_ALLOWED_ENTRIES=[0-9]*;/my \\\$MAX_ALLOWED_ENTRIES=$signalpMaxSequences;/" $signalpexec
 
 if [ "$signalptmhmm32bit" = true ] ; then
    echo "Forcing 32bit executables in signalp..."

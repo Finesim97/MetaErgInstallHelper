@@ -17,7 +17,7 @@ git clone https://github.com/Finesim97/MetaErgInstallHelper.git metaergscripts
 # metaergscripts will be the directory that stores the scripts from this repo
 ```
 
-You will also need to download [SignalP 4.1](http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+4.1)(**5 doesn't work**) and [TMHMM](http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?tmhmm). Place the downloaded `.tar.gz` in your current working directory, next to the metaergscripts folder.
+You will also need to download [SignalP 4.1](http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+4.1)(**5 doesn't work**) and [TMHMM](http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?tmhmm). Place the downloaded `.tar.gz` in your current working directory.
 
 Next you have to check the configuration of the installer. 
 
