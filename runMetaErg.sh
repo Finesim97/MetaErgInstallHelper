@@ -17,7 +17,7 @@ condadir="$p/condaenv"
 
 if [ -d "$condadir" ]; then
    echo "Activating conda env..."
-   conda activate "$condadir"
+   conda activate "$condadir" || source activate "$condadir"
 fi
 
 # Env variables for the different tools to run

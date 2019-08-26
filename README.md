@@ -8,7 +8,7 @@ Due to the nature of the bioinformatic hell, the pipeline has a few dependencies
 
 ## Usage (Last tested with 1.0.2, August 2019)
 
-The availability of Conda is assumed. If it is not installed on your system, please follow the installation [described here](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html). After installing you need to open a new shell to have it available. 
+The availability of Conda is assumed. If it is not installed on your system, please follow the installation [described here](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html) and also run `conda init --all`. After installing you need to open a new shell to have it available. 
 
 You first need to download the scripts. The easiest way to do that is just to clone the repository:
 

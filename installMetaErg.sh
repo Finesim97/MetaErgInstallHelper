@@ -50,18 +50,6 @@ cd $targetdir
 
 
 #
-# Conda Env
-#
-
-if [ "$setupCondaEnv" = true ] ; then
-   condadir="./condaenv"
-   echo "Creating conda env..."
-   conda env create -f "$scriptdir/metaerg.yml" -p "$condadir"
-   echo "Activating conda env..."
-   conda activate "$condadir"
-fi
-
-#
 # Signalp
 #
 
@@ -107,6 +95,20 @@ sed -i "$shebangfix" $tmhmmformat
 if [ "$signalptmhmm32bit" = true ] ; then
    echo "Forcing 32bit executables in tmhmm..."
    sed -i "$unamefix" $tmhmmexec
+fi
+
+#
+# Conda Env
+#
+
+condadir="./condaenv"
+
+if [ "$setupCondaEnv" = true ];  then
+   echo "Creating conda env..."
+   conda env create -f "$scriptdir/metaerg.yml" -p "$condadir" --force
+   echo "Activating conda env..."
+   echo "There can be error due to missing activation, but the source activate fallback might still work."
+   conda activate "$condadir" || source activate "$condadir"
 fi
 
 #
