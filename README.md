@@ -4,7 +4,7 @@ A few scripts to help with the installation of **MetaErg**, the contig/bin annot
 ## What is MetaErg?
 [MetaErg](https://sourceforge.net/projects/metaerg/) is a set of Perl scripts describing a **full** annotation workflow for metagenomic/proteomic contigs using HMMER, Diamond and a few feature prediction tools, that produces summary files (including tbl and gff3) and an overview report. Using MinPath, MetaCyc and KEGG Pathways are reconstructed from the functional annotation (KO,GO and EC numbers are available!). You could compare it to [Prokka](https://github.com/tseemann/prokka), but it is better suited for meta samples.
 
-Due to the nature of the bioinformatic hell, the pipeline has a few dependencies which need to be installed and sometimes modified. This repo prrovides scripts to ease the installation process. If something isn't working, feel free to contact me.
+Due to the nature of the bioinformatic hell, the pipeline has a few dependencies which need to be installed and sometimes modified. This repo provides scripts to ease the installation process. If something isn't working, feel free to contact me.
 
 ## Usage (Last tested with 1.0.2, August 2019)
 
@@ -50,7 +50,7 @@ Remember to honor the licenses of the the used tools and cite them in your work,
 
 
 ## Snakemake Example
-After cloning the repo, setting `setupCondaEnv` to `false` and downloading SignalP and TMHMM you can setup two rules like that:
+After cloning the repo, setting `setupCondaEnv` to `false` and downloading SignalP and TMHMM you can setup two rules like those:
 
 ``` python
 #
@@ -66,7 +66,7 @@ rule installMetaErg:
 	log:
 		"install_metaerg.log"
 	conda:
-		"metaerg.yaml"
+		"metaergscripts/metaerg.yaml"
 	threads:
 		32
 	shell:
@@ -88,11 +88,11 @@ rule metaergsample:
 		mincontiglen=config["mincontiglen_metaerg"], #200
 		minorff=config["minorfflen_metaerg"], #100
 	conda:
-		"metaerg.yaml"
+		"metaergscripts/metaerg.yaml"
 	shadow:
 		"full" # TMHMM places its temp directory in the working directory.
 	threads:
-		32 # MetaErg Runs multiple hmmer jobs in parallel with --cpus cores
+		32 # MetaErg Runs multiple hmmer jobs in parallel each with --cpus cores
 	shell:
 		"bash {input.script} {input.installdir} --mincontiglen {params.mincontiglen} --minorflen {params.minorff} --sp --tm --outdir {output.reportdir} --cpus 8 --depth {input.depthmat} {input.bin} --force &> {log}"
 
