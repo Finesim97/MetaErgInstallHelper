@@ -1,53 +1,57 @@
 # MetaErgInstallHelper
-A few scripts to help with the installation of **MetaErg**, the contig/bin annotation pipeline.
+One script to help with the installation of **MetaErg**, the contig/bin annotation pipeline.
 
 ## What is MetaErg?
 [MetaErg](https://sourceforge.net/projects/metaerg/) is a set of Perl scripts describing a **full** annotation workflow for metagenomic/proteomic contigs using HMMER, Diamond and a few feature prediction tools, that produces summary files (including tbl and gff3) and an overview report. Using MinPath, MetaCyc and KEGG Pathways are reconstructed from the functional annotation (KO,GO and EC numbers are available!). You could compare it to [Prokka](https://github.com/tseemann/prokka), but it is better suited for meta samples.
 
-Due to the nature of the bioinformatic hell, the pipeline has a few dependencies which need to be installed and sometimes modified. This repo provides scripts to ease the installation process. If something isn't working, feel free to contact me.
+Due to the nature of the bioinformatic hell, the pipeline has a few dependencies which need to be installed and sometimes modified. This repo provides a script to ease the installation process. If something isn't working, feel free to contact me.
 
-## Usage (Last tested with 1.0.2, August 2019)
+## Usage (Last tested with 1.2.1, October 2019)
 
 The availability of Conda is assumed. If it is not installed on your system, please follow the installation [described here](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html) and also run `conda init --all`. After installing you need to open a new shell to have it available. 
 
-You first need to download the scripts. The easiest way to do that is just to clone the repository:
+You first need to download the script. 
 
 ``` sh
-git clone https://github.com/Finesim97/MetaErgInstallHelper.git metaergscripts
-# metaergscripts will be the directory that stores the scripts from this repo
+wget https://raw.githubusercontent.com/Finesim97/MetaErgInstallHelper/master/installMetaErg.sh
 ```
 
-You will also need to download [SignalP 4.1](http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+4.1)(**5 doesn't work**) and [TMHMM](http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?tmhmm). Place the downloaded `.tar.gz` in your current working directory.
-
-
-Next you have to check the configuration of the installer. 
+You will also need to download [SignalP 5](http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?signalp) and [TMHMM](http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?tmhmm). Place the downloaded `.tar.gz` in your current working directory.
 
 ``` sh
-nano metaergscripts/installMetaErg.sh
+# ls -l
+-rw-r--r--  1 lu6085 studenten        2131 Okt 18 12:50 installMetaErg.sh
+-rw-r--r--  1 lu6085 studenten    45239117 Jun 19 10:13 signalp-5.0b.Linux.tar.gz
+-rw-r--r--  1 lu6085 studenten     1174180 Okt 18 11:25 tmhmm-2.0c.Linux.tar.gz
 ```
+
 
 After that you either can run the installation or include it in your workflow scripts (see below for a Snakemake example).
 
 ``` sh
-bash metaergscripts/installMetaErg.sh metaerginstall | tee metaErgInstallLog.txt
-# metaerginstall will be the directory with the installation and dependencies. This may take a while.
+bash installMetaErg.sh metaerginstall 2>&1 | tee metaErgInstallLog.txt
+# metaerginstall will be the directory with the installation and dependencies.
 ```
 
-If you have problems deleting the installation, due to "Permission denied errors" for the SignalP reference files, run this command to add write permissions for you:
-
+You will also need the reference files for metaerg.  The following commands will install the database into MetaErgs default database directory. 
+Download them from their server with:
 ``` sh
-chmod -R u+w metaerginstall/
+wget http://ebg.ucalgary.ca/metaerg/db.tar.gz
+tar xzvf db.tar.gz -C metaerginstall/metaerg/
 ```
 
-Now you can run MetaErg with the `runMetaErg.sh` script:
-
+Or build them yourself:
 ``` sh
-bash metaergscripts/runMetaErg.sh metaerginstall -h
-bash metaergscripts/runMetaErg.sh metaerginstall --sp --tm --outdir metaerg_test --prefix test --locustag metaerg_test metaerginstall/metaerg/example/test.fasta | tee metaErgTestLog.txt
+source activate metaerginstall
+setup_db.pl -o metaerginstall/metaerg -v 132 # SILVA version
 ```
 
-Remember to honor the licenses of the the used tools and cite them in your work, including the [Metabolic HMMs](https://doi.org/10.1038/s41396-018-0078-0) and the [CAS HMMs](https://doi.org/10.1038/nature21059).
-
+Now you can run MetaErg (if you didn't install the database to the default location, you have to add the -d option.)
+``` sh
+source activate metaerginstall
+metaerg.pl --help
+metaerg.pl  --depth metaerg/metaerg/example/demo.depth.txt metaerg/metaerg/example/demo.fna --sp --tm --outdir "metaergtest" --cpus 8
+```
 
 ## Snakemake Example
 After cloning the repo, setting `setupCondaEnv` to `false` and downloading SignalP and TMHMM you can setup two rules like those:
@@ -58,7 +62,7 @@ After cloning the repo, setting `setupCondaEnv` to `false` and downloading Signa
 #
 rule installMetaErg:
 	input:
-		"signalp-4.1g.Linux.tar.gz",
+		"signalp-5.0b.Linux.tar.gz",
 		"tmhmm-2.0c.Linux.tar.gz",
 		script="metaergscripts/installMetaErg.sh"
 	output:
@@ -78,10 +82,9 @@ rule metaergsample:
 	input:
 		installdir=rules.installMetaErg.output,
 		bin=rules.megahitassembly.output.contigs,
-		depthmat=rules.assemblycoverage.output.depthmatrix,
-		script="metaergscripts/runMetaErg.sh"
+		depthmat=rules.assemblycoverage.output.depthmatrix
 	output:
-		reportdir="metaerg/{sample}"
+		reportdir=directory("metaerg/{sample}")
 	log:
 		"metaerg/{sample}.log"
 	params:
@@ -92,8 +95,8 @@ rule metaergsample:
 	shadow:
 		"full" # TMHMM places its temp directory in the working directory.
 	threads:
-		32 # MetaErg Runs multiple hmmer jobs in parallel each with --cpus cores
+		8
 	shell:
-		"bash {input.script} {input.installdir} --mincontiglen {params.mincontiglen} --minorflen {params.minorff} --sp --tm --outdir {output.reportdir} --cpus 8 --depth {input.depthmat} {input.bin} --force &> {log}"
+		"source activate {input.installdir} && metaerg.pl --mincontiglen {params.mincontiglen} --minorflen {params.minorff} --sp --tm --outdir {output.reportdir} --cpus {threads} --depth {input.depthmat} {input.bin} --force &> {log}"
 
 ```
