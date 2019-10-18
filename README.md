@@ -46,7 +46,7 @@ source activate metaerginstall
 setup_db.pl -o metaerginstall/metaerg -v 132 # SILVA version
 ```
 
-Now you can run MetaErg (if you didn't install the database to the default location, you have to add the -d option.)
+Now you can run MetaErg (if you didn't install the database to the default location, you have to add the -db option.)
 ``` sh
 source activate metaerginstall
 metaerg.pl --help
