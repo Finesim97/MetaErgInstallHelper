@@ -19,6 +19,7 @@ tmhmm32bit=true
 swissknife="https://sourceforge.net/projects/swissknife/files/swissknife/1.78/swissknife_1.78.tar.gz/download"
 minpath="https://omics.informatics.indiana.edu/mg/get.php?justdoit=yes&software=minpath1.4.tar.gz"
 
+mkdir -p ~/.cpanm
 
 cat << 'EOF' > metaerg.yml
 name: metaerg
