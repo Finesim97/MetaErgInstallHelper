@@ -44,6 +44,7 @@ dependencies:
   - wget
   - python=2.7
   - git
+  - patch
 EOF
 conda env create -f "metaerg.yml" -p "$targetdir"
 rm "metaerg.yml"
